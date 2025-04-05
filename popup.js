@@ -3,10 +3,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const summaryText = document.getElementById("summaryText");
   const loading = document.getElementById("loading");
 
-  const API_KEY = "YOUR_CHATGPT_API_KEY_HERE";
+  const AI_API_KEY = "ollama";
+  const AI_API_URL = "http://127.0.0.1:11434/api/chat";
+  const AI_MODEL = "gemma3:1b";
 
   summarizeBtn.addEventListener("click", async () => {
     loading.style.display = "block";
+    // update the button text to indicate loading * disable the button
+    // summarizeBtn.textContent = "Loading...";
+    summarizeBtn.disabled = true;
     summaryText.textContent = "Generating summary...";
 
     try {
@@ -26,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
           summaryText.textContent =
             "Error: Content script not loaded. Please refresh the page.";
           loading.style.display = "none";
+          summarizeBtn.disabled = false;
           return;
         }
 
@@ -39,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Error communicating with page: " +
                 chrome.runtime.lastError.message;
               loading.style.display = "none";
+              summarizeBtn.disabled = false;
               return;
             }
 
@@ -65,12 +72,14 @@ document.addEventListener("DOMContentLoaded", () => {
               summaryText.textContent = "No profile data found";
             }
             loading.style.display = "none";
+            summarizeBtn.disabled = false;
           },
         );
       });
     } catch (error) {
       summaryText.textContent = error.message;
       loading.style.display = "none";
+      summarizeBtn.disabled = false;
     }
   });
 
@@ -81,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "Your task is to generate a concise & unbiased summary(in 2-3 sentence) for LinkedIn profiles. Don’t simply reiterate what’s already stated. Give only 1 option.Provide only one summary, avoiding extra commentary, introductory statement, or options.";
 
     const body = JSON.stringify({
-      model: "gemma3:1b",
+      model: AI_MODEL,
       messages: [
         { role: "system", content: systemPrimpt },
         { role: "user", content: prompt },
@@ -91,11 +100,12 @@ document.addEventListener("DOMContentLoaded", () => {
       stream: false,
     });
 
-    const response = await fetch("http://127.0.0.1:11434/api/chat", {
+    const response = await fetch(AI_API_URL, {
       mode: "cors",
       credentials: "omit",
       method: "POST",
       headers: {
+        authorization: `Bearer ${AI_API_KEY}`,
         accept: "*/*",
         "accept-language": "en-US,en;q=0.9,en-IN;q=0.8",
         "content-type": "application/json",
