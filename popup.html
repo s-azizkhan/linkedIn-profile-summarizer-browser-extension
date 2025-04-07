@@ -1,20 +1,47 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>LinkedIn Summarizer</title>
-        <link rel="stylesheet" href="styles.css" />
-        <script src="marked.min.js"></script>
-    </head>
-    <body>
+
+<head>
+    <title>LinkedIn Summarizer</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="jquery.min.js"></script>
+    <script src="marked.min.js"></script>
+    <script src="popup.js"></script>
+</head>
+
+<body>
+    <div class="backdrop">
         <div class="container">
-            <h2>LinkedIn Summarizer</h2>
-            <button id="summarizeBtn">Summarize Profile</button>
-            <div id="summary" class="summary-container">
-                <p id="summaryText">Click to generate summary</p>
+            <div class="header">
+                <h2>AI-LinkedIn Summarizer</h2>
+                <small>By Aziz</small>
+
             </div>
-            <div id="loading" class="loading">Loading...</div>
+            <div class="chat-container glass-card">
+                <div id="chat-messages" class="chat-messages">
+                    <div id="initial-message" class="message bot-message">
+                        <p>Click "Summarize" to start!</p>
+                    </div>
+                    <div id="summary" class="message bot-message">
+                        <p id="summaryText"></p>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <textarea id="userInput" class="glass-input" placeholder="Ask about the summary..."
+                        rows="1"></textarea>
+                    <button id="sendBtn" class="send-button">send</button>
+                </div>
+            </div>
+            <div class="action-container">
+                <button id="summarizeBtn" class="glass-button">
+                    <span>Summarize</span>
+                </button>
+                <div id="loading" class="loading glass-loading">
+                    <div class="spinner"></div>
+                </div>
+            </div>
         </div>
-        <div id="content"></div>
-        <script src="popup.js"></script>
-    </body>
+    </div>
+</body>
+
 </html>

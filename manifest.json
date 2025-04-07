@@ -1,9 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "LinkedIn Profile Summarizer",
+  "name": "AI LinkedIn Profile Summarizer",
   "version": "1.0",
   "description": "Summarize LinkedIn profiles using AI",
-  "permissions": ["activeTab", "storage"],
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
   "host_permissions": [
     "http://localhost/*",
     "http://127.0.0.1/*",
@@ -12,8 +15,12 @@
   ],
   "content_scripts": [
     {
-      "matches": ["*://*.linkedin.com/in/*"],
-      "js": ["content.js"],
+      "matches": [
+        "*://*.linkedin.com/in/*"
+      ],
+      "js": [
+        "content.js"
+      ],
       "run_at": "document_idle"
     }
   ],
